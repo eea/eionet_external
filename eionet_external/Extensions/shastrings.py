@@ -1,7 +1,8 @@
 
-import sha
+from __future__ import absolute_import
+import hashlib
 
 def sha1(self, s):
     if s is None:
         return ''
-    return sha.new(str(s)).hexdigest()
+    return hashlib.new(str(s)).hexdigest()

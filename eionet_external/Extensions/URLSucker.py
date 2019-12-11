@@ -11,8 +11,9 @@
 # from glossary.eea.eu.int
 # ver 1.3 with threads
 
-import urllib2
-from urllib import quote_plus
+from __future__ import absolute_import
+import six.moves.urllib.request, six.moves.urllib.error, six.moves.urllib.parse
+from six.moves.urllib.parse import quote_plus
 from threading import Thread
 from threading import Event
 
@@ -56,10 +57,10 @@ class URLSucker(Thread):
            
      def suckURL(self,url):
           try:
-           fd = urllib2.urlopen(url) #try to retrieve the url
+           fd = six.moves.urllib.request.urlopen(url) #try to retrieve the url
            self.URLContent = fd.read()
            fd.close()
-          except urllib2.HTTPError, errorinfo:
+          except six.moves.urllib.error.HTTPError as errorinfo:
               if errorinfo.code < 400 or errorinfo.code >= 500: # Code 5XX is ok
 	          self.URLContent = 'OK'
               else:

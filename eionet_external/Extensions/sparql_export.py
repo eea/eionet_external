@@ -1,6 +1,9 @@
+from __future__ import absolute_import
 from StringIO import StringIO
 import xlwt
 import jinja2
+import six
+from six.moves import range
 
 def generate_excel(header, rows):
     style = xlwt.XFStyle()
@@ -23,7 +26,7 @@ def generate_excel(header, rows):
                 data = ''
             else:
                 data = item[col]
-            if not isinstance(data, unicode):
+            if not isinstance(data, six.text_type):
                 data = str(data) 
             ws.row(row).set_cell_text(col, data, style)
 

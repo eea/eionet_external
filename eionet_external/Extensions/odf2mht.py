@@ -16,12 +16,15 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+from __future__ import absolute_import
 import zipfile
 from os import unlink
 from xml.sax import make_parser,handler
 from xml.sax.xmlreader import InputSource
 import xml.sax.saxutils
 from cgi import escape
+from six.moves import map
+from six.moves import range
 
 try:
     from cStringIO import StringIO
@@ -70,7 +73,7 @@ class TagStack:
     def rfindattr(self, attr):
         """ Find a tag with the given attribute """
         for tag, attrs in self.stack:
-            if attrs.has_key(attr):
+            if attr in attrs:
                 return attrs[attr]
         return None
     def count_tags(self, tag):
@@ -264,9 +267,9 @@ class ODFContentHandler(handler.ContentHandler):
         name = attrs.get((DRAWNS, 'style-name'), "")
         name = name.replace(".","_")
         style = ""
-        if attrs.has_key((SVGNS,"width")):
+        if (SVGNS,"width") in attrs:
             style = style + "width:" + attrs[(SVGNS,"width")] + ";"
-        if attrs.has_key((SVGNS,"height")):
+        if (SVGNS,"height") in attrs:
             style = style + "height:" +  attrs[(SVGNS,"height")] + ";"
         self.writeout('<div class="G-%s" style="%s">' % (name, style))
 
@@ -290,7 +293,7 @@ class ODFContentHandler(handler.ContentHandler):
         for name, styles in self.styledict.items():
             # Resolve the remaining parent styles
             # Can this get into an infinite loop?
-            while styles.has_key('__parent-style-name'):
+            while '__parent-style-name' in styles:
                 parentstyle = self.styledict[styles['__parent-style-name']].copy()
                 del styles['__parent-style-name']
                 for style, val in styles.items():
@@ -333,10 +336,10 @@ class ODFContentHandler(handler.ContentHandler):
         self.currentstyle = None
 
     def s_style_handle_properties(self, tag, attrs):
-        if attrs.has_key((STYLENS, 'width')):
+        if (STYLENS, 'width') in attrs:
             width = attrs[(STYLENS, 'width')]
             self.styledict[self.currentstyle]['width'] = width
-        if attrs.has_key((STYLENS, 'column-width')):
+        if (STYLENS, 'column-width') in attrs:
             width = attrs[(STYLENS, 'column-width')]
             self.styledict[self.currentstyle]['width'] = width
         for a in ( (FONS,"background-color"),
@@ -363,17 +366,17 @@ class ODFContentHandler(handler.ContentHandler):
                 (FONS,"padding-right"),
                 (FONS,"padding-top"),
                 (FONS,"text-indent")):
-            if attrs.has_key(a):
+            if a in attrs:
                 selector = a[1]
                 self.styledict[self.currentstyle][selector] = attrs[a]
 
-        if attrs.has_key( (FONS,"text-align") ):
+        if (FONS,"text-align") in attrs:
             align = attrs[(FONS,"text-align")]
             if align == "start": align = "left"
             if align == "end": align = "right"
             self.styledict[self.currentstyle]['text-align'] = align
 
-        if attrs.has_key( (STYLENS,"font-name") ):
+        if (STYLENS,"font-name") in attrs:
             fallback = self.fontdict.get(attrs[(STYLENS,"font-name")],'Serif')
             self.styledict[self.currentstyle]['font-family'] = '"%s", %s'  % (attrs[(STYLENS,"font-name")], fallback)
 
@@ -429,7 +432,7 @@ class ODFContentHandler(handler.ContentHandler):
         self.currentstyle = ".%s-%s" % (family, name.replace(".","_"))
         self.styledict[self.currentstyle] = {}
         if parent:
-            if self.styledict.has_key(".%s-%s" % (family, parent)):
+            if ".%s-%s" % (family, parent) in self.styledict:
                 styles = self.styledict[".%s-%s" % (family, parent)]
                 for style, val in styles.items():
                     self.styledict[self.currentstyle][style] = val
@@ -442,10 +445,10 @@ class ODFContentHandler(handler.ContentHandler):
         self.currentstyle = None
 
     def s_style_table_properties(self, tag, attrs):
-        if attrs.has_key((STYLENS, 'width')):
+        if (STYLENS, 'width') in attrs:
             width = attrs[(STYLENS, 'width')]
             self.styledict[self.currentstyle]['width'] = width
-        if attrs.has_key((TABLENS, 'border-model')):
+        if (TABLENS, 'border-model') in attrs:
             self.styledict[self.currentstyle]['border-collapse'] = 'collapse'
 
     def s_table_table(self, tag, attrs):
@@ -657,7 +660,7 @@ class ODFContentHandler(handler.ContentHandler):
 
     def s_text_s(self, tag, attrs):
         c = attrs.get((TEXTNS, 'c'),"1")
-        for x in xrange(int(c)):
+        for x in range(int(c)):
             self.writeout('&nbsp;')
 
     def s_text_span(self, tag, attrs):
