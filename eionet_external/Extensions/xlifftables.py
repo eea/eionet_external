@@ -3,6 +3,8 @@
 # NOTE:
 # This parser doesn't understand the ALT-TRANS element.
 
+from __future__ import absolute_import
+from __future__ import print_function
 from xml.sax.handler import ContentHandler
 from xml.sax import *
 from cStringIO import StringIO
@@ -63,7 +65,7 @@ class XLIFFHandler(ContentHandler):
             self.toprint("""<tr><th>Id</th><th>Source</th><th>Target</th><th>Note</th></tr>""")
 
         if name == 'phase':
-            tmp = attrs.items()
+            tmp = list(attrs.items())
             for i in [elem for elem in attrs.keys() if elem not in _PHASE_ATTRS]:
                 tmp.remove((i, attrs[i]))
             self.setPhaseGroup(tmp)
@@ -165,5 +167,5 @@ def xliff2tables(content):
     return chandler.getResult()
 
 if __name__ == '__main__':
-    xliff = file('global.xlf').read()
-    print xliff2html(xliff)
+    xliff = open('global.xlf').read()
+    print(xliff2html(xliff))

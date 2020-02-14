@@ -1,5 +1,6 @@
 """Convert html data to raw text"""
 
+from __future__ import absolute_import
 from sgmllib import SGMLParser
 from string import join
 
@@ -10,7 +11,7 @@ from string import join
 class _StripTagParser(SGMLParser):
   '''SGML Parser removing any tags and translating HTML entities.'''
 
-  from htmlentitydefs import entitydefs
+  from six.moves.html_entities import entitydefs
 
   data= None
 

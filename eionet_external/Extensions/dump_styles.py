@@ -19,6 +19,7 @@
             - click/follow the Test tab
 """
 
+from __future__ import absolute_import
 import logging
 from os.path import join, isdir
 from os import mkdir
@@ -56,9 +57,9 @@ class DumpStyles:
             try:
                 mkdir(path)
             except:
-                raise OSError, 'Can\'t create directory {}'.format(
+                raise OSError('Can\'t create directory {}'.format(
                     path
-                )
+                ))
 
     def __create_file(self, path, data):
         f = open(path, 'wb')

@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 # Copyright (C) 2008 Søren Roug, European Environment Agency
 #
+from __future__ import absolute_import
+from __future__ import print_function
 import MySQLdb
 
 dbhost = "penguin"
@@ -33,7 +35,7 @@ def list_all(self, REQUEST=None, RESPONSE=None):
 if __name__ == '__main__':
     res = list_all(None)
     for item in res:
-        print item['name'].encode('utf-8')
+        print(item['name'].encode('utf-8'))
 
 
 

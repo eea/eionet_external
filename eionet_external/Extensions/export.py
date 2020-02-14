@@ -1,4 +1,6 @@
+from __future__ import absolute_import
 import simplejson as json
+import six
 
 meta_attributes = {
     'SerisFolder': ('id', 'title', 'description', 'title_SERIS_home',
@@ -18,15 +20,15 @@ meta_attributes = {
 
 def rec(context):
     data = {'meta_type': context.meta_type}
-    for k, v in context.__dict__.iteritems():
+    for k, v in six.iteritems(context.__dict__):
         if k in meta_attributes[context.meta_type]:
             try: #Check if the value is serializable
                 json.dumps(v)
                 data[k] = v
             except:
-                data[k] = unicode(v)
+                data[k] = six.text_type(v)
     if hasattr(context, 'objectValues'):
-        for ob in context.objectValues(meta_attributes.keys()):
+        for ob in context.objectValues(list(meta_attributes.keys())):
             if '__children__' not in data:
                 data['__children__'] = []
             data['__children__'].append(rec(ob))

@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import string
 
 def sub_doc(s,pos,n,search_expr):
@@ -45,7 +46,7 @@ def fast_site_search(self,search_expr='',cnt=0):
              if o.hasProperty('ico'): ret=ret+self.iconspath+o.ico
              else: ret=ret+o.icon
              ret=ret+'" border=0 width=18 height=16>' + \
-	      `fcurr` + '<a href="'+o.absolute_url()
+	      repr(fcurr) + '<a href="'+o.absolute_url()
              if hasattr(o, 'item_info'):
                if o.item_info=='LocalForum': ret=ret+'/view_item'
                if o.item_info=='WikiForum': ret=ret+'/view_doc'
