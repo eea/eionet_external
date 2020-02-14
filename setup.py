@@ -5,6 +5,9 @@ from setuptools import setup, find_packages
 setup(
     name='eionet_external',
     version='1.0',
+    description='Eionet external helper methods',
+    classifiers=[],
+    keywords='',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
