@@ -3,7 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 NAME = 'eionet_external'
-PATH = NAME.split('.') + ['Extensions'] + ['version.txt']
+PATH = NAME.split('.') + ['version.txt']
 VERSION = open(os.path.join(*PATH)).read().strip()
 
 setup(name=NAME,
