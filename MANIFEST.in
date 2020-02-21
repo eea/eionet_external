@@ -1,7 +1,7 @@
 include *.md *.rst *.txt
+graft docs
 graft eionet_external
 global-exclude *pyc
 global-exclude *~
 global-exclude *.un~
-
 global-include *.mo
