@@ -1,0 +1,11 @@
+Changelog
+=========
+
+1.1 - (unreleased)
+------------------
+* Implement automated release in Jenkins
+
+1.0 - (2020-02-14)
+------------------
+* Initial release
+
