@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.2 - (2020-02-26)
+---------------------------
+* Feature: updated Jenkins pipeline
+  [alecghica refs #110159]
+
 1.1 - (2020-02-21)
 ------------------
 * Implement automated release in Jenkins
@@ -8,4 +13,3 @@ Changelog
 1.0 - (2020-02-14)
 ------------------
 * Initial release
-
