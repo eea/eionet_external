@@ -1,3 +1,4 @@
+''' eionet external methods installer '''
 from __future__ import absolute_import
 import os
 from setuptools import setup, find_packages
@@ -10,11 +11,11 @@ setup(name=NAME,
       version=VERSION,
       long_description_content_type="text/x-rst",
       long_description=open("README.rst").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      open(os.path.join("docs", "HISTORY.txt")).read(),
       description='Eionet external helper methods',
       classifiers=[],
       keywords='',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-)
+      )
