@@ -1,28 +1,31 @@
 from __future__ import absolute_import
 import string
 
-def sub_doc(s,pos,n,search_expr):
-  #s   - the string
-  #pos - position in string
-  #n   - number of chars to show before and after pos
-  start_ix = int(pos) - int(n)
-  if start_ix < 0: start_ix = 0
-  end_ix = int(pos) + int(n) + len(search_expr)
-  if end_ix > len(s): end_ix = len(s)
-  ret = string.replace(s[start_ix:end_ix],'<',' ')
-  ret = string.replace(ret,'>',' ')
-  return string.replace(string.lower(ret),string.lower(search_expr),'<b><u>'+search_expr+'</u></b>')
+
+def sub_doc(s, pos, n, search_expr):
+    # s   - the string
+    # pos - position in string
+    # n   - number of chars to show before and after pos
+    start_ix = int(pos) - int(n)
+    if start_ix < 0:
+        start_ix = 0
+    end_ix = int(pos) + int(n) + len(search_expr)
+    if end_ix > len(s):
+        end_ix = len(s)
+    ret = string.replace(s[start_ix:end_ix], '<', ' ')
+    ret = string.replace(ret, '>', ' ')
+    return string.replace(string.lower(ret), string.lower(search_expr),
+                          '<b><u>' + search_expr + '</u></b>')
 
 
-
-def fast_site_search(self,search_expr='',cnt=0):
-  ret=''
-  count=cnt
-  lowsearch = string.lower(search_expr) # Friends in low places
-  for i in self.objectItems(['Folder','ZWiki Page', 'DTML Document',
-	 'Yihaw Folder', 'Yihaw News Item','Yihaw URL']):
-      o=i[1] #the object
-      id=i[0]
+def fast_site_search(self, search_expr='', cnt=0):
+    ret = ''
+    count = cnt
+    lowsearch = string.lower(search_expr)  # Friends in low places
+    for i in self.objectItems(['Folder','ZWiki Page', 'DTML Document',
+                               'Yihaw Folder', 'Yihaw News Item','Yihaw URL']):
+      o = i[1] # the object
+      id = i[0]
       if o.getNodeName() in ("Folder","Yihaw Folder"):
             ret1,count1=fast_site_search(o,search_expr,count)
             ret=ret+ret1
